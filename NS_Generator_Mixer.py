@@ -1,4 +1,4 @@
-# დუბლიკატების მოშორება / Remove duplicats
+# დუბლიკატების მოშორება 
 def remove_duplicates(input_file, output_file):
     with open(input_file, 'r', encoding='utf-8') as infile:
         lines = infile.readlines()
@@ -22,13 +22,8 @@ remove_duplicates(input_file, output_file)
 
 
 
-# დაფორმატება
-# პატარა_ასოებით
-# დიდი_ასოებით
-# პირველიდიდი_ასო
-# სახელის_პირველი_ასო.გვარი
+# დაფორმატება saxeli Saxeli SAXELI
 def process_text(input_file, output_file):
-    # ინპუტის წაკითხვაი
     with open(input_file, 'r', encoding='utf-8') as infile:
         lines = infile.readlines()
     
@@ -64,7 +59,7 @@ def generate_name_surname_combinations(first, second, output_file):
     with open(second, 'r', encoding='utf-8') as infile:
         surnames = [line.strip() for line in infile]
     
-    # კომბინაციები 
+    # აქ შეგიძლია დაამატო კომბინაციები 
     combination1 = [f"{name}{surname}" for name in names for surname in surnames]
     combination2 = [f"{name}_{surname}" for name in names for surname in surnames]
     combination3 = [f"{name}-{surname}" for name in names for surname in surnames]
@@ -148,3 +143,6 @@ file1 = r'filtered_combinations.txt'
 file2 = r'filtered_combinations1.txt'
 output_file = r'FullWordlist.txt'
 append_file_data(file1, file2, output_file)
+
+
+# დასამატებელია ან სანაგვე ან აუტომატური წამშლელი 
