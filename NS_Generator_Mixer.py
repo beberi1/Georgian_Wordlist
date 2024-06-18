@@ -1,3 +1,5 @@
+import os
+
 # დუბლიკატების მოშორება 
 def remove_duplicates(input_file, output_file):
     with open(input_file, 'r', encoding='utf-8') as infile:
@@ -47,6 +49,72 @@ input_file = r'Names\Unique_Names.txt'
 output_file = r'Names\Unique_Names.txt'
 process_text(input_file, output_file)
 
+
+# დაფორმატება giorgi -> g!orgi giorg! g!org! 
+####################################################################
+def replace_first_occurrence(word, letter, symbol):
+    return word.replace(letter, symbol, 1)
+
+def replace_second_occurrence(word, letter, symbol):
+    parts = word.split(letter, 2)
+    if len(parts) == 3:
+        return letter.join(parts[:2]) + symbol + parts[2]
+    return word
+
+def replace_all_occurrences(word, letter, symbol):
+    return word.replace(letter, symbol)
+
+def process_words(input_file, output_file, letter, symbol):
+    with open(input_file, 'r', encoding='utf-8') as infile:
+        words = [line.strip() for line in infile]
+    
+    with open(output_file, 'a', encoding='utf-8') as outfile:
+        for word in words:
+            first_replacement = replace_first_occurrence(word, letter, symbol)
+            outfile.write(first_replacement + '\n')
+
+            second_replacement = replace_second_occurrence(word, letter, symbol)
+            outfile.write(second_replacement + '\n')
+
+            all_replacement = replace_all_occurrences(word, letter, symbol)
+            outfile.write(all_replacement + '\n')
+
+# აქ შეგიძლია დაამატო კიდევ რა ასოები გინდა რომ შეიცვალოს სხვადასხვა სიმბოლოთი
+# პირველად წერ ასოს რომელიც გინდა შეიცვალოს და მეორედ სიმბოლოს რომლითაც გინდა რომ შეიცვალოს
+input_file = r'Names/Unique_Names.txt'   
+output_file = r'Names/Unique_Names.txt'
+process_words(input_file, output_file, 'i', '!')
+process_words(input_file, output_file, 'e', '3')
+process_words(input_file, output_file, 'o', '0')
+
+input_file = r'Surnames/Unique_Surnames.txt'   
+output_file = r'Surnames/Unique_Surnames.txt'
+process_words(input_file, output_file, 'i', '!')
+process_words(input_file, output_file, 'e', '3')
+process_words(input_file, output_file, 'o', '0')
+####################################################################
+
+# დუბლიკატების მოშორება დაფორმატების შემდეგ
+def remove_duplicates(input_file, output_file):
+    with open(input_file, 'r', encoding='utf-8') as infile:
+        lines = infile.readlines()
+    
+    unique_lines = set()
+    
+    with open(output_file, 'w', encoding='utf-8') as outfile:
+        for line in lines:
+            if line not in unique_lines:
+                outfile.write(line)
+                unique_lines.add(line)
+
+# ფაილების არჩევა / File addresses
+input_file = r'Surnames\Unique_Surnames.txt'
+output_file = r'Surnames\Unique_Surnames.txt'
+remove_duplicates(input_file, output_file)
+
+input_file = r'Names\Unique_Names.txt'
+output_file = r'Names\Unique_Names.txt'
+remove_duplicates(input_file, output_file)
 
 
 # სახელებისა და გვარების შერევა 
@@ -145,4 +213,14 @@ output_file = r'FullWordlist.txt'
 append_file_data(file1, file2, output_file)
 
 
-# დასამატებელია ან სანაგვე ან აუტომატური წამშლელი 
+
+# დროებითი ფაილების წაშლა
+def remove_temp_files():
+    os.remove(r'Names/Unique_Names.txt')
+    os.remove(r'Surnames/Unique_Surnames.txt')
+    os.remove(r'combinations.txt')
+    os.remove(r'combinations1.txt')
+    os.remove(r'filtered_combinations.txt')
+    os.remove(r'filtered_combinations1.txt')
+# ეს შეგიძლია დააკომენტარო რათა დროებითი ფაილები არ წაიშალოს
+remove_temp_files()
