@@ -1,15 +1,19 @@
-# არ აის დასრულებული
+import os
 
+
+# არ არის დასრულებული თუმცა რაღაც დონეზე არის
 # აქ შეგიძლია შექმნა ახალი პაროლების კომბინაციები
+
 # giorgi Giorgi gIorgi giOrgi gioRgi giorGi giorgI GIORGI  #
 # giorgi -> g!orgi giorg! g!org!                           #
 # giorgi12   8-9-10 მდე რომ შეივსოს                        # 
 # 12giorgi   8-9-10 მდე რომ შეივსოს                        #
-# giorgi1923 giorgi1924                                    
+# giorgi1923 giorgi1924                                    #
+# 1923giorgi 1923giorgi                                    #
 # giorgi"phonenumber"                                      
 
 
-
+# დუბლიკატების მოშორება
 def remove_duplicates(input_file, output_file):
     with open(input_file, 'r', encoding='utf-8') as infile:
         lines = infile.readlines()
@@ -22,8 +26,8 @@ def remove_duplicates(input_file, output_file):
                 outfile.write(line)
                 unique_lines.add(line)
 
-
-def process_text(input_string, output_file):
+# დიდი და პატარა ასოებით დაწერა
+def upper_and_lowercase(input_string, output_file):
     with open(output_file, 'w', encoding='utf-8') as outfile:
         outfile.write(input_string + '\n')
     
@@ -42,7 +46,6 @@ def process_text(input_string, output_file):
         for alt_lines in alternating_capitalization_lines:
             for alt_line in alt_lines:
                 outfile.write(alt_line + '\n')
-
 def generate_alternating_capitalizations(input_string):
     # დიდი ასოების გენერაცია
     capitalizations = []
@@ -51,16 +54,14 @@ def generate_alternating_capitalizations(input_string):
         capitalizations.append(capitalized)
     return capitalizations
 
-
+# სიმბოლოებით შეცვლა
 def replace_first_occurrence(word, letter, symbol):
     return word.replace(letter, symbol, 1)
-
 def replace_second_occurrence(word, letter, symbol):
     parts = word.split(letter, 2)
     if len(parts) == 3:
         return letter.join(parts[:2]) + symbol + parts[2]
     return word
-
 def replace_all_occurrences(word, letter, symbol):
     return word.replace(letter, symbol)
 
@@ -79,16 +80,16 @@ def process_words(input_file, output_file, letter, symbol):
             all_replacement = replace_all_occurrences(word, letter, symbol)
             outfile.write(all_replacement + '\n')
 
-# 8 მდე შევსება
-def process_and_fill_words(input_file, output_file):
-    # 9, 10, 11 character lengths for words
+# 8 მდე შევსება რიცხვებით
+# შესასწორებელია არ ავსებს სწორად მაგ: irina678 აკეთებს ამას და არა irina123
+def fill_with_numbers(input_file, output_file):
+    # 9, 10, 11 სიტყვების სიგრძეები
     target_lengths = [9, 10, 11]
 
     def fill_word(word, target_length, append_at_end=False):
         if len(word.strip()) >= target_length:
-            return word.strip()[:target_length]  # Return the first `target_length` characters if the word is already long enough
+            return word.strip()[:target_length] 
         else:
-            # Fill the word with numbers to make it `target_length` characters long
             num_to_add = target_length - len(word.strip())
             if append_at_end:
                 numbers = ''.join([str(i) for i in range(num_to_add, 0, -1)])
@@ -102,34 +103,111 @@ def process_and_fill_words(input_file, output_file):
         words = infile.readlines()
     
     with open(output_file, 'a', encoding='utf-8') as outfile:
-        # First write words with numbers appended from the front
+        # თავში სიტყვების დამატება
         for word in words:
             for target_length in target_lengths:
                 filled_word = fill_word(word, target_length, append_at_end=False)
                 outfile.write(filled_word + '\n')
         
-        # Then write words with numbers appended from the back
+        # ბოლოში რიცხვების დამატება
         for word in words:
             for target_length in target_lengths:
                 filled_word = fill_word(word, target_length, append_at_end=True)
                 outfile.write(filled_word + '\n')
 
+# ამატებს წლებს თავში და ბოლოში
+def append_years_to_words(input_file, output_file, start_year=1938, end_year=2024):
+    with open(input_file, 'r', encoding='utf-8') as infile:
+        words = infile.readlines()
 
+    with open(output_file, 'a', encoding='utf-8') as outfile:
+        for year in range(start_year, end_year + 1):
+            for word in words:
+                stripped_word = word.strip()
+                if stripped_word:
+                    # ამატებს ბოლოში
+                    filled_word_back = f"{stripped_word}{year}"
+                    outfile.write(filled_word_back + '\n')
+                    #ამატებს მეორეჯერ ბოლოში
+                    filled_word_back = f"{stripped_word}{year}{year}"
+                    outfile.write(filled_word_back + '\n')
 
+                    # ამატებს თავში
+                    filled_word_front = f"{year}{stripped_word}"
+                    outfile.write(filled_word_front + '\n')
+                    filled_word_front = f"{year}{year}{stripped_word}"
+                    outfile.write(filled_word_front + '\n')
 
+# ამატებს პირველ ფაილს დანარჩენების კონტენტს
+def append_files_data(file1, file2, file3, output_file):
+    with open(file1, 'r', encoding='utf-8') as f1:
+        words1 = f1.readlines()
 
-# რა გინდა ერქვას ახალ ფაილს?
+    words2=[]
+    try:
+        with open(file2, 'r', encoding='utf-8') as f2:
+            words2 = f2.readlines()
+    except FileNotFoundError:
+        print(f"{file2} ფაილი არ არსებობს.(არაა სანერვიულო)")
+    
+    words3 = []
+    try:
+        with open(file3, 'r', encoding='utf-8') as f3:
+            words3 = f3.readlines()
+    except FileNotFoundError:
+        print(f"{file3} ფაილი არ არსებობს.(არაა სანერვიულო)")
+
+    words1 = [word.strip() for word in words1 if word.strip()]
+    words2 = [word.strip() for word in words2 if word.strip()]
+    words3 = [word.strip() for word in words3 if word.strip()]
+
+    combined_words = words1 + words2 + words3
+
+    with open(output_file, 'w', encoding='utf-8') as outfile:
+        for word in combined_words:
+            outfile.write(word + '\n')
+
+    try:
+        os.remove(file1)
+    except FileNotFoundError:
+        print(f"{file1} არ არსებობს.(დაიკიდე)")
+    except PermissionError:
+        print(f"Permission denied: unable to remove {file1}.")
+    except Exception as e:
+        print(f"Error removing {file1}: {e}")
+    
+    try:
+        os.remove(file2)
+    except FileNotFoundError:
+        print(f"{file2}  არ არსებობს.(დაიკიდე)")
+    except PermissionError:
+        print(f"Permission denied: unable to remove {file2}.")
+    except Exception as e:
+        print(f"Error removing {file2}: {e}")
+
+    try:
+        os.remove(file3)
+    except FileNotFoundError:
+        print(f"{file3}  არ არსებობს.(დაიკიდე)")
+    except PermissionError:
+        print(f"Permission denied: unable to remove {file3}.")
+    except Exception as e:
+        print(f"Error removing {file3}: {e}")
+
 
 # სიტვა რომელსაც მომხმარებელი შეიყვანს
-saxeli = input("შეიყვანე სიტყვა: ")
+saxeli = input("შეიყვანე სიტყვა რომლისგანაც გინდა შექმნა სიტყვების ჩამონათვალი: ")
 
 # გამოსავალი ფაილი
 input_file = r'pass.txt'
-output_file = r'pass.txt'  
+output_file = r'pass.txt' 
 
+# საწყისი ფაილის შექმნა და სიტყვის ჩაწერა
+with open(output_file, 'w', encoding='utf-8') as outfile:
+        outfile.writelines(saxeli + '\n')
 
 # დიდი და პატარა ასოების გაკეთება
-process_text(saxeli, output_file)
+upper_and_lowercase(saxeli, output_file)
 
 # ასოების სიმბოლოებით შეცვლა
 # აქ შეგიძლია დაამატო კიდევ რა ასოები გინდა რომ შეიცვალოს სხვადასხვა სიმბოლოთი
@@ -144,6 +222,16 @@ process_words(input_file, output_file, 'b', '6')
 remove_duplicates(input_file, output_file)
 
 # 8-მდე შევსება
-process_and_fill_words(input_file, output_file)
+output_file = r'pass1.txt'  
+fill_with_numbers(input_file, output_file)
 
+output_file = r'pass2.txt'  
+# ამატებს წლებს თავში და ბოლოში
+append_years_to_words(input_file, output_file)
 
+# ყველაფერს წერს ერთ ფაილში
+file1="pass.txt"
+file2="pass1.txt"
+file3="pass2.txt"
+output="All_variants.txt"
+append_files_data(file1,file2,file3,output)
