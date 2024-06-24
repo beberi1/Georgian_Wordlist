@@ -1,5 +1,9 @@
 import os
 
+# დასამატებელია
+# რიცხვების მიწერა თავში ან ბოლოში
+# წლების მიწერა თავში ან ბოლოში
+
 # დუბლიკატების მოშორება 
 def remove_duplicates(input_file, output_file):
     with open(input_file, 'r', encoding='utf-8') as infile:
@@ -13,19 +17,8 @@ def remove_duplicates(input_file, output_file):
                 outfile.write(line)
                 unique_lines.add(line)
 
-# ფაილების არჩევა / File addresses
-input_file = r'Surnames\Surnames.txt'
-output_file = r'Surnames\Unique_Surnames.txt'
-remove_duplicates(input_file, output_file)
-
-input_file = r'Names\Names.txt'
-output_file = r'Names\Unique_Names.txt'
-remove_duplicates(input_file, output_file)
-
-
-
 # დაფორმატება saxeli Saxeli SAXELI
-def process_text(input_file, output_file):
+def upper_lower_Case(input_file, output_file):
     with open(input_file, 'r', encoding='utf-8') as infile:
         lines = infile.readlines()
     
@@ -39,16 +32,6 @@ def process_text(input_file, output_file):
         outfile.writelines(lowercase_lines)
         outfile.writelines(first_letter_uppercase_lines)
         outfile.writelines(uppercase_lines)
-
-# მისამართები
-input_file = r'Surnames\Unique_Surnames.txt'
-output_file = r'Surnames\Unique_Surnames.txt'
-process_text(input_file, output_file)
-
-input_file = r'Names\Unique_Names.txt'
-output_file = r'Names\Unique_Names.txt'
-process_text(input_file, output_file)
-
 
 # დაფორმატება giorgi -> g!orgi giorg! g!org! 
 ####################################################################
@@ -78,44 +61,6 @@ def process_words(input_file, output_file, letter, symbol):
 
             all_replacement = replace_all_occurrences(word, letter, symbol)
             outfile.write(all_replacement + '\n')
-
-# აქ შეგიძლია დაამატო კიდევ რა ასოები გინდა რომ შეიცვალოს სხვადასხვა სიმბოლოთი
-# პირველად წერ ასოს რომელიც გინდა შეიცვალოს და მეორედ სიმბოლოს რომლითაც გინდა რომ შეიცვალოს
-input_file = r'Names/Unique_Names.txt'   
-output_file = r'Names/Unique_Names.txt'
-process_words(input_file, output_file, 'i', '!')
-process_words(input_file, output_file, 'e', '3')
-process_words(input_file, output_file, 'o', '0')
-
-input_file = r'Surnames/Unique_Surnames.txt'   
-output_file = r'Surnames/Unique_Surnames.txt'
-process_words(input_file, output_file, 'i', '!')
-process_words(input_file, output_file, 'e', '3')
-process_words(input_file, output_file, 'o', '0')
-####################################################################
-
-# დუბლიკატების მოშორება დაფორმატების შემდეგ
-def remove_duplicates(input_file, output_file):
-    with open(input_file, 'r', encoding='utf-8') as infile:
-        lines = infile.readlines()
-    
-    unique_lines = set()
-    
-    with open(output_file, 'w', encoding='utf-8') as outfile:
-        for line in lines:
-            if line not in unique_lines:
-                outfile.write(line)
-                unique_lines.add(line)
-
-# ფაილების არჩევა / File addresses
-input_file = r'Surnames\Unique_Surnames.txt'
-output_file = r'Surnames\Unique_Surnames.txt'
-remove_duplicates(input_file, output_file)
-
-input_file = r'Names\Unique_Names.txt'
-output_file = r'Names\Unique_Names.txt'
-remove_duplicates(input_file, output_file)
-
 
 # სახელებისა და გვარების შერევა 
 def generate_name_surname_combinations(first, second, output_file):
@@ -158,23 +103,8 @@ def generate_name_surname_combinations(first, second, output_file):
         outfile.write("\n".join(combination12) + "\n")
         outfile.write("\n".join(combination13) + "\n")
 
-# NameSurname
-first = r'Names\Unique_Names.txt'
-second = r'Surnames\Unique_Surnames.txt'
-output_file = r'combinations.txt'
-generate_name_surname_combinations(first, second, output_file)
-
-# SurnameName
-first = r'Surnames\Unique_Surnames.txt'
-second = r'Names\Unique_Names.txt'
-output_file = r'combinations1.txt'
-generate_name_surname_combinations(first, second, output_file)
-
-
-
-
-# შლის 8 ზე ნაკლებ ასოიან სიტყვებს
-def filter_short_words(input_file, output_file, min_length=8):
+# წაშლის 8 ზე ნაკლებ ასოიან სიტყვებს
+def remove_short_words(input_file, output_file, min_length=8):
     with open(input_file, 'r', encoding='utf-8') as infile:
         lines = infile.readlines()
 
@@ -182,16 +112,6 @@ def filter_short_words(input_file, output_file, min_length=8):
 
     with open(output_file, 'w', encoding='utf-8') as outfile:
         outfile.writelines(filtered_lines)
-
-input_file = r'combinations.txt'
-output_file = r'filtered_combinations.txt'
-filter_short_words(input_file, output_file)
-
-input_file = r'combinations1.txt'
-output_file = r'filtered_combinations1.txt'
-filter_short_words(input_file, output_file)
-
-
 
 # ამატებს პირველი კობინაციების ფაილს მეორე კომბინაციების ფაილს 
 def append_file_data(file1, file2, output_file):
@@ -207,11 +127,82 @@ def append_file_data(file1, file2, output_file):
         outfile.writelines(combined_lines)
 
 
+
+
+
+# ფუნქციების გამოძახების ნაწილი
+
+# დუბლიკატების მოშორება უნიკალური სახელებიდან და გვარებიდან
+input_file = r'Surnames\Surnames.txt'
+output_file = r'Surnames\Unique_Surnames.txt'
+remove_duplicates(input_file, output_file)
+
+input_file = r'Names\Names.txt'
+output_file = r'Names\Unique_Names.txt'
+remove_duplicates(input_file, output_file)
+
+
+# დაფორმატება saxeli Saxeli SAXELI
+input_file = r'Surnames\Unique_Surnames.txt'
+output_file = r'Surnames\Unique_Surnames.txt'
+upper_lower_Case(input_file, output_file)
+
+input_file = r'Names\Unique_Names.txt'
+output_file = r'Names\Unique_Names.txt'
+upper_lower_Case(input_file, output_file)
+
+
+# აქ შეგიძლია დაამატო კიდევ რა ასოები გინდა რომ შეიცვალოს სხვადასხვა სიმბოლოთი
+# პირველად წერ ასოს რომელიც გინდა შეიცვალოს და მეორედ სიმბოლოს რომლითაც გინდა რომ შეიცვალოს
+input_file = r'Names/Unique_Names.txt'   
+output_file = r'Names/Unique_Names.txt'
+process_words(input_file, output_file, 'i', '!')
+process_words(input_file, output_file, 'e', '3')
+process_words(input_file, output_file, 'o', '0')
+
+input_file = r'Surnames/Unique_Surnames.txt'   
+output_file = r'Surnames/Unique_Surnames.txt'
+process_words(input_file, output_file, 'i', '!')
+process_words(input_file, output_file, 'e', '3')
+process_words(input_file, output_file, 'o', '0')
+####################################################################
+
+
+# დუბლიკატების მეორედ მოშორება
+input_file = r'Surnames\Unique_Surnames.txt'
+output_file = r'Surnames\Unique_Surnames.txt'
+remove_duplicates(input_file, output_file)
+
+input_file = r'Names\Unique_Names.txt'
+output_file = r'Names\Unique_Names.txt'
+remove_duplicates(input_file, output_file)
+
+
+# სახელების და გვარების შერევა
+first = r'Names\Unique_Names.txt'
+second = r'Surnames\Unique_Surnames.txt'
+output_file = r'combinations.txt'
+generate_name_surname_combinations(first, second, output_file)
+
+first = r'Surnames\Unique_Surnames.txt'
+second = r'Names\Unique_Names.txt'
+output_file = r'combinations1.txt'
+generate_name_surname_combinations(first, second, output_file)
+
+# შლის 8 ზე ნაკლებ ასოიან სიტყვებს
+input_file = r'combinations.txt'
+output_file = r'filtered_combinations.txt'
+remove_short_words(input_file, output_file)
+
+input_file = r'combinations1.txt'
+output_file = r'filtered_combinations1.txt'
+remove_short_words(input_file, output_file)
+
+# ყველა კომბინაციიდან ქმნის ერთ საბოლოო ფაილს
 file1 = r'filtered_combinations.txt'
 file2 = r'filtered_combinations1.txt'
 output_file = r'FullWordlist.txt'
 append_file_data(file1, file2, output_file)
-
 
 
 # დროებითი ფაილების წაშლა
