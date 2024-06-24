@@ -4,12 +4,14 @@ import os
 # არ არის დასრულებული თუმცა რაღაც დონეზე არის
 # აქ შეგიძლია შექმნა ახალი პაროლების კომბინაციები
 
+# დასამატებელია
 # giorgi Giorgi gIorgi giOrgi gioRgi giorGi giorgI GIORGI  #
 # giorgi -> g!orgi giorg! g!org!                           #
 # giorgi12   8-9-10 მდე რომ შეივსოს                        # 
 # 12giorgi   8-9-10 მდე რომ შეივსოს                        #
 # giorgi1923 giorgi1924                                    #
 # 1923giorgi 1923giorgi                                    #
+# giorgi0101 0101giorgi            თარიღები და სახელი     #
 # giorgi"phonenumber"                                      
 
 
@@ -138,8 +140,33 @@ def append_years_to_words(input_file, output_file, start_year=1938, end_year=202
                     filled_word_front = f"{year}{year}{stripped_word}"
                     outfile.write(filled_word_front + '\n')
 
+# ამატებს თვეების და დღეების კომბინაციებს ინპუტს
+def append_date_variants_to_words(input_file, output_dates):
+    # Step 1: Read the existing data from the file
+    with open(input_file, 'r') as file:
+        words = file.readlines()
+    
+    # Remove any trailing newline characters from the words
+    words = [word.strip() for word in words]
+    
+    # Step 2: Generate the date variants and append them to each word
+    updated_data = []
+    for word in words:
+        for month in range(1, 13):  # 1 to 12 months
+            for day in range(1, 32):  # 1 to 31 days
+                formatted_day = f"{day:02}"
+                formatted_month = f"{month:02}"
+                updated_data.append(f"{word}{formatted_month}{formatted_day}\n")
+                updated_data.append(f"{word}{formatted_day}{formatted_month}\n")
+                updated_data.append(f"{formatted_month}{formatted_day}{word}\n")
+                updated_data.append(f"{formatted_day}{formatted_month}{word}\n")
+    
+    # Step 3: Write the updated data back to the file
+    with open(output_dates, 'w') as file:
+        file.writelines(updated_data)
+
 # ამატებს პირველ ფაილს დანარჩენების კონტენტს
-def append_files_data(file1, file2, file3, output_file):
+def append_files_data(file1, file2, file3, file4, output_file):
     with open(file1, 'r', encoding='utf-8') as f1:
         words1 = f1.readlines()
 
@@ -157,11 +184,19 @@ def append_files_data(file1, file2, file3, output_file):
     except FileNotFoundError:
         print(f"{file3} ფაილი არ არსებობს.(არაა სანერვიულო)")
 
+    words4 = []
+    try:
+        with open(file4, 'r', encoding='utf-8') as f4:
+            words4 = f4.readlines()
+    except FileNotFoundError:
+        print(f"{file4} ფაილი არ არსებობს.(არაა სანერვიულო)")
+
     words1 = [word.strip() for word in words1 if word.strip()]
     words2 = [word.strip() for word in words2 if word.strip()]
     words3 = [word.strip() for word in words3 if word.strip()]
+    words4 = [word.strip() for word in words4 if word.strip()]
 
-    combined_words = words1 + words2 + words3
+    combined_words = words1 + words2 + words3 + words4
 
     with open(output_file, 'w', encoding='utf-8') as outfile:
         for word in combined_words:
@@ -194,6 +229,14 @@ def append_files_data(file1, file2, file3, output_file):
     except Exception as e:
         print(f"Error removing {file3}: {e}")
 
+    try:
+        os.remove(file4)
+    except FileNotFoundError:
+        print(f"{file4}  არ არსებობს.(დაიკიდე)")
+    except PermissionError:
+        print(f"Permission denied: unable to remove {file4}.")
+    except Exception as e:
+        print(f"Error removing {file4}: {e}")
 
 # სიტვა რომელსაც მომხმარებელი შეიყვანს
 saxeli = input("შეიყვანე სიტყვა რომლისგანაც გინდა შექმნა სიტყვების ჩამონათვალი: ")
@@ -221,6 +264,15 @@ process_words(input_file, output_file, 'b', '6')
 # დუპლიკატების წაშლა
 remove_duplicates(input_file, output_file)
 
+
+output_dates = "pass3.txt"
+append_date_variants_to_words(input_file, output_dates)
+
+
+
+
+
+
 # 8-მდე შევსება
 output_file = r'pass1.txt'  
 fill_with_numbers(input_file, output_file)
@@ -233,5 +285,6 @@ append_years_to_words(input_file, output_file)
 file1="pass.txt"
 file2="pass1.txt"
 file3="pass2.txt"
+file4="pass3.txt"
 output="All_variants.txt"
-append_files_data(file1,file2,file3,output)
+append_files_data(file1,file2,file3,file4,output)
