@@ -5,6 +5,8 @@
 # month day year
 # year day month
 # year month day
+# month year day
+# day year month
 
 sawyisi_weli = 1920
 saboloo_weli = 2030
@@ -22,3 +24,7 @@ with open('dates.txt', 'w') as file:
                 file.write(formatted_month + formatted_day + formatted_year + '\n')
                 file.write(formatted_year + formatted_day + formatted_month + '\n')
                 file.write(formatted_year + formatted_month + formatted_day + '\n')
+                file.write(formatted_month + formatted_year + formatted_day + '\n')
+                file.write(formatted_day + formatted_year + formatted_month + '\n')
+                
+                
