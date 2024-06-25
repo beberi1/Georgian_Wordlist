@@ -130,7 +130,6 @@ def append_years_to_words(input_file, output_file, start_year=1938, end_year=202
                     # ამატებს ბოლოში
                     filled_word_back = f"{stripped_word}{year}"
                     outfile.write(filled_word_back + '\n')
-                    #ამატებს მეორეჯერ ბოლოში
                     filled_word_back = f"{stripped_word}{year}{year}"
                     outfile.write(filled_word_back + '\n')
 
@@ -138,6 +137,10 @@ def append_years_to_words(input_file, output_file, start_year=1938, end_year=202
                     filled_word_front = f"{year}{stripped_word}"
                     outfile.write(filled_word_front + '\n')
                     filled_word_front = f"{year}{year}{stripped_word}"
+                    outfile.write(filled_word_front + '\n')
+
+                    # თავშიც და ბოლოშიც
+                    filled_word_front = f"{year}{stripped_word}{year}"
                     outfile.write(filled_word_front + '\n')
 
 # ამატებს თვეების და დღეების კომბინაციებს ინპუტს
@@ -160,6 +163,8 @@ def append_date_variants_to_words(input_file, output_dates):
                 updated_data.append(f"{word}{formatted_day}{formatted_month}\n")
                 updated_data.append(f"{formatted_month}{formatted_day}{word}\n")
                 updated_data.append(f"{formatted_day}{formatted_month}{word}\n")
+                updated_data.append(f"{formatted_day}{word}{formatted_month}\n")
+                updated_data.append(f"{formatted_month}{word}{formatted_day}\n")
     
     # Step 3: Write the updated data back to the file
     with open(output_dates, 'w') as file:
@@ -267,10 +272,6 @@ remove_duplicates(input_file, output_file)
 
 output_dates = "pass3.txt"
 append_date_variants_to_words(input_file, output_dates)
-
-
-
-
 
 
 # 8-მდე შევსება
