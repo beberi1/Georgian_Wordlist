@@ -1,10 +1,9 @@
 import os
 
 
-# არ არის დასრულებული თუმცა რაღაც დონეზე არის
-# აქ შეგიძლია შექმნა ახალი პაროლების კომბინაციები
+# აქ შეგიძლია შექმნა ახალი პაროლების კომბინაციები შენს მიერ შერჩეული სიტყვით
 
-# დასამატებელია
+# ფუნქციონალი ასეთია
 # giorgi Giorgi gIorgi giOrgi gioRgi giorGi giorgI GIORGI  #
 # giorgi -> g!orgi giorg! g!org!                           #
 # giorgi12   8-9-10 მდე რომ შეივსოს                        # 
@@ -12,7 +11,10 @@ import os
 # giorgi1923 giorgi1924                                    #
 # 1923giorgi 1923giorgi                                    #
 # giorgi0101 0101giorgi            თარიღები და სახელი     #
-# giorgi"phonenumber"                                      
+
+# phonenumber ებში საქართველოს თავსართებით გენერირდება 23 მილიონი სავარაუდო ნომერი
+# შესაბამისად giorgi"phonenumber" ასეთი რაღაცის გაკეთება რესურსის მხრივ რთული იქნება 
+# ასე შეიქმნება ძალიან ბევრი ვარიანტი და ამიტომაც კოდში ამ ფუნქციას არ დავამატებ
 
 
 # დუბლიკატების მოშორება
@@ -83,22 +85,21 @@ def process_words(input_file, output_file, letter, symbol):
             outfile.write(all_replacement + '\n')
 
 # 8 მდე შევსება რიცხვებით
-# შესასწორებელია არ ავსებს სწორად მაგ: irina678 აკეთებს ამას და არა irina123
 def fill_with_numbers(input_file, output_file):
     # 9, 10, 11 სიტყვების სიგრძეები
-    target_lengths = [9, 10, 11]
+    target_lengths = [8, 9, 10, 11]
 
     def fill_word(word, target_length, append_at_end=False):
-        if len(word.strip()) >= target_length:
-            return word.strip()[:target_length] 
+        word = word.strip()
+        if len(word) >= target_length:
+            return word[:target_length]
         else:
-            num_to_add = target_length - len(word.strip())
+            num_to_add = target_length - len(word)
+            numbers = ''.join([str(i) for i in range(1, num_to_add + 1)])
             if append_at_end:
-                numbers = ''.join([str(i) for i in range(num_to_add, 0, -1)])
-                filled_word = word.strip() + numbers
+                filled_word = word + numbers
             else:
-                numbers = ''.join([str(i) for i in range(1, num_to_add + 1)])
-                filled_word = numbers + word.strip()
+                filled_word = numbers + word
             return filled_word
 
     with open(input_file, 'r', encoding='utf-8') as infile:
