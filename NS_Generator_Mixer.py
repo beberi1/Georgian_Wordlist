@@ -128,9 +128,7 @@ def append_file_data(file1, file2, output_file):
 
 
 
-
-
-# ფუნქციების გამოძახების ნაწილი
+                                            # ფუნქციების გამოძახების ნაწილი
 
 # დუბლიკატების მოშორება უნიკალური სახელებიდან და გვარებიდან
 input_file = r'Surnames\Surnames.txt'
