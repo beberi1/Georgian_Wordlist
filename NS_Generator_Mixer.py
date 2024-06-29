@@ -86,6 +86,7 @@ def generate_name_surname_combinations(first, second, output_file):
     combination11 = [f"{name[0]}\{surname}" for name in names for surname in surnames]
     combination12 = [f"{name[0]}_{surname}" for name in names for surname in surnames]
     combination13 = [f"{name[0]}{surname}" for name in names for surname in surnames]
+    combination14 = [f"{name}da{surname}" for name in names for surname in surnames]
     
 
     with open(output_file, 'w', encoding='utf-8') as outfile:
@@ -102,6 +103,8 @@ def generate_name_surname_combinations(first, second, output_file):
         outfile.write("\n".join(combination11) + "\n")
         outfile.write("\n".join(combination12) + "\n")
         outfile.write("\n".join(combination13) + "\n")
+        outfile.write("\n".join(combination14) + "\n")
+
 
 # წაშლის 8 ზე ნაკლებ ასოიან სიტყვებს
 def remove_short_words(input_file, output_file, min_length=8):
