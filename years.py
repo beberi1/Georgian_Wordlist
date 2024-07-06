@@ -11,7 +11,7 @@
 sawyisi_weli = 1920
 saboloo_weli = 2030
 
-with open('dates.txt', 'w') as file:
+with open('years.txt', 'w') as file:
     for year in range(sawyisi_weli, saboloo_weli):
         file.write(f"{year}" + f"{year}" + '\n')
         for month in range(1, 13):  # 1 დან 12 თვემდე
