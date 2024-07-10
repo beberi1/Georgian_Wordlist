@@ -6,8 +6,8 @@ import os
 # ფუნქციონალი ასეთია
 # giorgi Giorgi gIorgi giOrgi gioRgi giorGi giorgI GIORGI  #
 # giorgi -> g!orgi giorg! g!org!                           #
-# giorgi12   8-9-10 მდე რომ შეივსოს                        # 
-# 12giorgi   8-9-10 მდე რომ შეივსოს                        #
+# giorgi00->giorgi01   8-9-10 მდე რომ შეივსოს              # 
+# 00giorgi->00giorgi   8-9-10 მდე რომ შეივსოს              #
 # giorgi1923 giorgi1924                                    #
 # 1923giorgi 1923giorgi                                    #
 # giorgi0101 0101giorgi            თარიღები და სახელი     #
