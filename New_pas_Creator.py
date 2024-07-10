@@ -84,33 +84,25 @@ def process_words(input_file, output_file, letter, symbol):
             all_replacement = replace_all_occurrences(word, letter, symbol)
             outfile.write(all_replacement + '\n')
 
-# 8 მდე შევსება რიცხვებით
-# ქმნის დუპლიკატებს გასასწორებელია
+# 8 9 10 მდე შევსება რიცხვებით
 def fill_with_numbers(input_file, output_file):
-    # Target lengths for the words
-    target_lengths = [8, 9, 10, 11]
+    with open(input_file, 'r') as input_f, open(output_file, 'w') as output_f:
+        for line in input_f:
+            word = line.strip()  
+            num_length = 8 - len(word)  
+            num_length1 = 9 - len(word)
+            num_length2 = 10 - len(word)
+            for i in range(10 ** num_length):  
+                combination = f"{word}{i:0{num_length}d}"  
+                output_f.write(combination + '\n')  
+                
+            for i in range(10 ** num_length1):  
+                combination1 = f"{word}{i:0{num_length1}d}"
+                output_f.write(combination1 + '\n')  
 
-    def fill_word(word, target_length):
-        word = word.strip()
-        if len(word) >= target_length:
-            return word[:target_length]
-        else:
-            num_to_add = target_length - len(word)
-            filled_word = word + '0' * num_to_add
-            return filled_word
-
-    with open(input_file, 'r', encoding='utf-8') as infile:
-        words = infile.readlines()
-    
-    with open(output_file, 'a', encoding='utf-8') as outfile:
-        # Generate all combinations of filled words
-        for word in words:
-            word = word.strip()
-            for target_length in target_lengths:
-                for i in range(0, 1000):  # Generate numbers from 000 to 999
-                    num_str = f"{i:03}"  # Format number with leading zeros
-                    filled_word = fill_word(word + num_str, target_length)
-                    outfile.write(filled_word + '\n')
+            for i in range(10 ** num_length2):  
+                combination2 = f"{word}{i:0{num_length2}d}"
+                output_f.write(combination2 + '\n')  
 
 # ამატებს წლებს თავში და ბოლოში
 def append_years_to_words(input_file, output_file, start_year=1938, end_year=2024):
@@ -272,9 +264,7 @@ append_date_variants_to_words(input_file, output_dates)
 # 8-მდე შევსება
 output_file = r'pass1.txt'  
 fill_with_numbers(input_file, output_file)
-# დუპლიკატების წაშლა
-input_file1 = 'pass1.txt'
-remove_duplicates(input_file1, output_file)
+
 
 output_file = r'pass2.txt'  
 # ამატებს წლებს თავში და ბოლოში
