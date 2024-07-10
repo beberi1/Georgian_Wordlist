@@ -85,38 +85,32 @@ def process_words(input_file, output_file, letter, symbol):
             outfile.write(all_replacement + '\n')
 
 # 8 მდე შევსება რიცხვებით
+# ქმნის დუპლიკატებს გასასწორებელია
 def fill_with_numbers(input_file, output_file):
-    # 9, 10, 11 სიტყვების სიგრძეები
+    # Target lengths for the words
     target_lengths = [8, 9, 10, 11]
 
-    def fill_word(word, target_length, append_at_end=False):
+    def fill_word(word, target_length):
         word = word.strip()
         if len(word) >= target_length:
             return word[:target_length]
         else:
             num_to_add = target_length - len(word)
-            numbers = ''.join([str(i) for i in range(1, num_to_add + 1)])
-            if append_at_end:
-                filled_word = word + numbers
-            else:
-                filled_word = numbers + word
+            filled_word = word + '0' * num_to_add
             return filled_word
 
     with open(input_file, 'r', encoding='utf-8') as infile:
         words = infile.readlines()
     
     with open(output_file, 'a', encoding='utf-8') as outfile:
-        # თავში სიტყვების დამატება
+        # Generate all combinations of filled words
         for word in words:
+            word = word.strip()
             for target_length in target_lengths:
-                filled_word = fill_word(word, target_length, append_at_end=False)
-                outfile.write(filled_word + '\n')
-        
-        # ბოლოში რიცხვების დამატება
-        for word in words:
-            for target_length in target_lengths:
-                filled_word = fill_word(word, target_length, append_at_end=True)
-                outfile.write(filled_word + '\n')
+                for i in range(0, 1000):  # Generate numbers from 000 to 999
+                    num_str = f"{i:03}"  # Format number with leading zeros
+                    filled_word = fill_word(word + num_str, target_length)
+                    outfile.write(filled_word + '\n')
 
 # ამატებს წლებს თავში და ბოლოში
 def append_years_to_words(input_file, output_file, start_year=1938, end_year=2024):
@@ -278,6 +272,9 @@ append_date_variants_to_words(input_file, output_dates)
 # 8-მდე შევსება
 output_file = r'pass1.txt'  
 fill_with_numbers(input_file, output_file)
+# დუპლიკატების წაშლა
+input_file1 = 'pass1.txt'
+remove_duplicates(input_file1, output_file)
 
 output_file = r'pass2.txt'  
 # ამატებს წლებს თავში და ბოლოში
