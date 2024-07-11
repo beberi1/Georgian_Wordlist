@@ -92,17 +92,27 @@ def fill_with_numbers(input_file, output_file):
             num_length = 8 - len(word)  
             num_length1 = 9 - len(word)
             num_length2 = 10 - len(word)
+            # თავშიც ამატებს და ბოლოშიც
             for i in range(10 ** num_length):  
-                combination = f"{word}{i:0{num_length}d}"  
+                combination = f"{word}{i:0{num_length}d}"
+                combination1 = f"{i:0{num_length}d}{word}"
                 output_f.write(combination + '\n')  
+                output_f.write(combination1 + '\n')  
                 
             for i in range(10 ** num_length1):  
-                combination1 = f"{word}{i:0{num_length1}d}"
+                combination = f"{word}{i:0{num_length1}d}"
+                combination1 = f"{i:0{num_length1}d}{word}"
+                output_f.write(combination + '\n')  
                 output_f.write(combination1 + '\n')  
 
             for i in range(10 ** num_length2):  
-                combination2 = f"{word}{i:0{num_length2}d}"
-                output_f.write(combination2 + '\n')  
+                combination = f"{word}{i:0{num_length2}d}"
+                combination1 = f"{i:0{num_length2}d}{word}"
+                output_f.write(combination + '\n')  
+                output_f.write(combination1 + '\n')  
+
+
+
 
 # ამატებს წლებს თავში და ბოლოში
 def append_years_to_words(input_file, output_file, start_year=1938, end_year=2024):
