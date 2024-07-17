@@ -92,24 +92,38 @@ def fill_with_numbers(input_file, output_file):
             num_length = 8 - len(word)  
             num_length1 = 9 - len(word)
             num_length2 = 10 - len(word)
-            # თავშიც ამატებს და ბოლოშიც
-            for i in range(10 ** num_length):  
-                combination = f"{word}{i:0{num_length}d}"
-                combination1 = f"{i:0{num_length}d}{word}"
-                output_f.write(combination + '\n')  
-                output_f.write(combination1 + '\n')  
-                
-            for i in range(10 ** num_length1):  
-                combination = f"{word}{i:0{num_length1}d}"
-                combination1 = f"{i:0{num_length1}d}{word}"
-                output_f.write(combination + '\n')  
-                output_f.write(combination1 + '\n')  
+            # num_length3 = 11 - len(word) #თუ კიდევ გინდა მეტი სიგრძე დაამატო
+            # ამოაკომენტარე ეს და კიდევ ქვემოთ
 
-            for i in range(10 ** num_length2):  
-                combination = f"{word}{i:0{num_length2}d}"
-                combination1 = f"{i:0{num_length2}d}{word}"
-                output_f.write(combination + '\n')  
-                output_f.write(combination1 + '\n')  
+            # თავშიც ამატებს და ბოლოშიც
+            if num_length>0:
+                for i in range(10 ** num_length):  
+                    combination = f"{word}{i:0{num_length}d}"
+                    combination1 = f"{i:0{num_length}d}{word}"
+                    output_f.write(combination + '\n')  
+                    output_f.write(combination1 + '\n')  
+
+            if num_length1>0:    
+                for i in range(10 ** num_length1):  
+                    combination = f"{word}{i:0{num_length1}d}"
+                    combination1 = f"{i:0{num_length1}d}{word}"
+                    output_f.write(combination + '\n')  
+                    output_f.write(combination1 + '\n')  
+
+            if num_length2>0:
+                for i in range(10 ** num_length2):  
+                    combination = f"{word}{i:0{num_length2}d}"
+                    combination1 = f"{i:0{num_length2}d}{word}"
+                    output_f.write(combination + '\n')  
+                    output_f.write(combination1 + '\n')  
+            
+            # თუ გინდა კიდევ დამატო
+            # if num_length3>0:
+            #     for i in range(10 ** num_length3):  
+            #         combination = f"{word}{i:0{num_length3}d}"
+            #         combination1 = f"{i:0{num_length3}d}{word}"
+            #         output_f.write(combination + '\n')  
+            #         output_f.write(combination1 + '\n')  
 
 
 
