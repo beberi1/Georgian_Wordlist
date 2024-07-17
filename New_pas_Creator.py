@@ -276,6 +276,7 @@ process_words(input_file, output_file, 'e', '3')
 process_words(input_file, output_file, 'o', '0')
 process_words(input_file, output_file, 'a', '@')
 process_words(input_file, output_file, 'b', '6')
+process_words(input_file, output_file, 'x', 'kh')
 
 # დუპლიკატების წაშლა
 remove_duplicates(input_file, output_file)
